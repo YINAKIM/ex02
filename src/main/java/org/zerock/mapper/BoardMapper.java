@@ -20,6 +20,14 @@ public interface BoardMapper {
     // 2. insert실행 후 생성된 PK값을 알아야 하는 경우
     public void insertSelectKey(BoardVO board);
 
+    // 3. select 처리 - PK의 데이터타입 정보를 이용
+    public BoardVO read(Long bno);
+
+
+    // DML작업은 몇 건의 데이터를 manipulation했는지를 반환할 수 있다 : 리턴타입 int ( 정상실행은  > 0 값 )
+    // 4. delete처리
+    public int delete(Long bno);
+
 
 }
 
