@@ -70,6 +70,23 @@ public class BoardMapperTests {
         log.info("DELETE COUNT: " + mapper.delete(3L));
     }
 
+    // 5. update 처리
+    @Test
+    public void testUpdate(){
+
+        BoardVO board = new BoardVO();
+
+        //실행 전 존재하는 번호인지 확인할 것.
+        board.setBno(2L);
+        board.setTitle("update제목");
+        board.setContent("update내용");
+        board.setWriter("user00");
+
+        int count = mapper.update(board);
+        log.info("UPDATE COUNT : "+count);
+    }
+
+
 
 
 }

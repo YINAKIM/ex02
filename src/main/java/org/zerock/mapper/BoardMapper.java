@@ -5,6 +5,8 @@ package org.zerock.mapper;
 import org.apache.ibatis.annotations.Select;
 import org.zerock.domain.BoardVO;
 
+import javax.naming.InitialContext;
+import java.sql.Driver;
 import java.util.List;
 
 public interface BoardMapper {
@@ -28,6 +30,7 @@ public interface BoardMapper {
     // 4. delete처리
     public int delete(Long bno);
 
-
+    // 5. update처리
+    public int update(BoardVO board);
 }
 
