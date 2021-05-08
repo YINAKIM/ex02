@@ -85,5 +85,38 @@ public class BoardControllerTests {
                 .getModelAndView().getModelMap()        );
     }
 
+    @Test
+    public void testModify()throws Exception{
+        String resultPage = mockMvc.perform(MockMvcRequestBuilders
+                .post("/board/modify")
+                .param("bno","1")
+                .param("title","컨트롤러 테스트 제목")
+                .param("content","컨트롤러 테스트 내용")
+                .param("writer","user00")
+                ).andReturn().getModelAndView().getViewName();
 
+        log.info(resultPage);
+    }
+
+    @Test
+    public void testRemove()throws Exception{
+
+        //삭제 테스트 전 DB 게시물 번호 먼저 확인할 것
+        String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+                .param("bno","2")
+        ).andReturn().getModelAndView().getViewName();
+
+        log.info(resultPage);
+    }
+
+    /*
+
+    org.springframework.test.web.servlet;
+    public class MockMvc
+    가짜mvc : 가짜로 URL과 파라미터 등을 브라우저에서 사용하는 것 처럼 만들어서
+             실제 서버를 돌리지 않고도 서블릿을 생성,
+             Controller를 실행해볼 수 있게 함
+
+    => MockMvc 로 파라미터 전달 시 반드시 String으로 전달할 것
+    */
 }
