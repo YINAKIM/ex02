@@ -1,6 +1,9 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ex02:war exploded">
     <output-path>$PROJECT_DIR$/target/ex02-1.0-SNAPSHOT</output-path>
+    <properties id="ant-preprocessing">
+      <options enabled="true" />
+    </properties>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
