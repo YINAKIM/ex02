@@ -117,8 +117,15 @@
 
                     }else if (operation === 'list'){
                       // list 페이지로
+                      /*
                       self.location="/board/list";
                       return;
+                      */
+
+                      // 11.5.4 수정페이지에서 링크처리 + 뒤로가기 : list로 이동할 때는 파라미터필요없기때문에 empty() ---> submit()
+                      formObj.attr("action","/board/list").attr("method","get");
+                      formObj.empty();
+
                     }
 
                     formObj.submit();                    // 직접 submit()

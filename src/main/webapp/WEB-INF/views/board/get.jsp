@@ -38,6 +38,7 @@
                 <script type="text/javascript">
                     $(document).ready(function(){
                         var operForm = $("#operForm");
+                        console.log("operForm / hidden값 : ...."+operForm);
 
                         // modify 버튼 누르면 hidden값으로 bno 가지고 ----> submit()
                         $("button[data-oper='modify']").on("click",function(e){
