@@ -128,12 +128,29 @@
 
                       // 11.5.4 수정페이지에서 링크처리 + 뒤로가기 : list로 이동할 때는 파라미터필요없기때문에 empty() ---> submit()
                       formObj.attr("action","/board/list").attr("method","get");
-                      formObj.empty();
 
+                      var pageNumTag = $("input[name='pageNum']").clone();
+                      var amountTag = $("input[name='amount']").clone();
+                      formObj.empty();
+                      formObj.append(pageNumTag);
+                      formObj.append(amountTag);
+
+/*
+    사용자가 수정(혹은 삭제) 하려고 왔다가 작업 안하고 [List] 을 눌러서 돌아갈 경우
+    [ 작업 취소 상황 ]
+    => 1. 필요한 부분만 잠시 복사해서 보관해두고 (clone),
+       2. <form>태그 내의 모든 내용은 지워버림(empty)
+       3. 다시 [List]페이지로 갈 때 필요한 태그들만 추가해서 '/board/list'호출하는 것
+
+
+    들어올 때 : /board/modify?bno=425951&pageNum=5&amount=10
+    취소 후
+    돌아갈 때(O) : /board/list?pageNum=6&amount=10 -> 올바른 예
+    돌아갈 때(X) : /board/list? -> 잘못된 예
+*/
                     }
 
                     formObj.submit();                    // 직접 submit()
-
                   });
                 });
 
