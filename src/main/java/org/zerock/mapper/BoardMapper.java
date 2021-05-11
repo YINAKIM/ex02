@@ -14,7 +14,9 @@ public interface BoardMapper {
 
     //@Service 패키지 주의! org.apache.ibatis.annotations.Select
     //@Select("SELECT * FROM TBL_BOARD WHERE BNO>0")
-    public List<BoardVO> getList();
+    // 페이징처리안된 CRUD테스트용 getList -  public List<BoardVO> getList();
+
+    public List<BoardVO> getList(Criteria cri);
 
     //-------- 페이징처리를 위한 파라미터들을 모아둔 Creteria를 받아서 페이징을 위한 리스트를 만드는 메서드 --------
     public List<BoardVO> getListWithPaging(Criteria cri);

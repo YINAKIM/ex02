@@ -23,7 +23,8 @@ public class BoardMapperTests {
     // BoardMapper.xml - 조회 테스트
     @Test
     public void testGetList(){
-        mapper.getList().forEach(board -> log.info(board));
+
+       // mapper.getList().forEach(board -> log.info(board));
     }
 
     // BoardMapper.xml - 등록테스트 : 1.단순 insert

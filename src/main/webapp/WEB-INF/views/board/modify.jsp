@@ -24,14 +24,18 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
 
-      <div class="panel-heading">Board Read Page</div>
+      <div class="panel-heading">Board 수정 Page</div>
 
       <div class="panel-body">
         <div class="row">
           <div class="col-lg-6">
 
             <%-- 번호로 수정 : bno / writer 만 readonly="readonly"로 속성지정 --%>
-<form role="form" action="/board/modify" method="post">
+            <form role="form" action="/board/modify" method="post">
+                <%-- 페이지위치 유지하기 위한 파라미터 hidden --%>
+                <input type="hidden" name="pageNum" value="<c:out value='${cri.pageNum}'/>">
+                <input type="hidden" name="amount" value="<c:out value='${cri.amount}'/>">
+
             <%-- BNO --%>
             <div class="form-group">
               <label>Bno</label>

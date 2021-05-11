@@ -30,9 +30,16 @@
                 <div class="row">
                     <div class="col-lg-6">
 
-            <%-- hidden값 보내기 --%>
+            <%-- hidden값 보내기
+                 1. modify작업을 위한  bno
+                 2. list로 다시 이동 시) 1페이지가 아니라
+                    내가 보고있던 그 페이지로 다시 이동하기 위해 받아왔던 Criteria에 들어가는
+                    pageNum ,amount
+            --%>
             <form id="operForm" action="/board/modify" method="get">
                 <input type="hidden" id="bno" name="bno" value="<c:out value='${board.bno}'/>">
+                <input type="hidden" id="pageNum" name="pageNum" value="<c:out value='${cri.pageNum}'/>">
+                <input type="hidden" id="amount" name="amount" value="<c:out value='${cri.amount}'/>">
             </form>
 
                 <script type="text/javascript">

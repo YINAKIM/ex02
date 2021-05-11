@@ -21,7 +21,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <table width="100%" class="table table-striped table-bordered table-hover">
                     <%-- 목록화면처리 / Part3 - 11.2 / p236  --%>
                             <thead>
                             <tr>
@@ -37,7 +37,14 @@
                             <tbody>
                             <tr>
                                 <td><c:out value="${board.bno}"/></td>
-                                <td><a href="/board/get?bno=<c:out value='${board.bno}'/>"><c:out value="${board.title}"/></a></td>
+<%-- p314
+     list > get?bno=x > list 이동시 초기페이지로 이동하는 문제를
+     해결하기 위해 각 조회페이지로 이동 시 hidden 값을 담아서 보내고(js에서 추가),
+     => 돌아올 때 그 값을 달고 돌아와서 list?pageNum=2&amount=10 이런식으로 보던페이지로 다시 돌아올 수 있게 처리
+ <td><a class="move" href="/board/get?bno=<c:out value='${board.bno}'/>"><c:out value="${board.title}"/></a></td>
+--%>
+                                <td><a class="move" href="<c:out value='${board.bno}'/>">
+                                    <c:out value="${board.title}"/></a></td>
                                 <td><c:out value="${board.writer}"/></td>
                                 <td><fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/></td>
                                 <td><fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd"/></td>
@@ -47,9 +54,37 @@
                         </c:forEach>
                         </table>
 
+        <%-- Pagenation --%>
 
+                        <div class="pull-right">
+                            <ul class="pagination">
 
+                                <%-- prev --%>
+                                <c:if test="${pageMaker.prev}">
+                                    <li class="paginate_button previous">
+                                        <a href="${pageMaker.startPage-1}">Prev</a>
+                                    </li>
+                                </c:if>
+                                <%-- PageNum --%>
+                                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                                    <li class="paginate_button ${pageMaker.cri.pageNum == num ? "active" : ""}">
+                                        <a href="${num}">${num}</a>
+                                    </li>
+                                </c:forEach>
+                                <%-- Next --%>
+                                    <c:if test="${pageMaker.next}">
+                                        <li class="paginate_button next">
+                                            <a href="${pageMaker.endPage+1}">Next</a>
+                                        </li>
+                                    </c:if>
+                            </ul>
+                        </div>
+        <%-- Pagenation : END --%>
 
+<form id="actionForm" action="/board/list" method="get">
+    <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+    <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+</form>
 
                     <%-- MODAL  --%>
 
@@ -71,7 +106,7 @@
                             </div>
                             <!-- /.modal-dialog -->
                         </div>
-                    <%-- MODAL  --%>
+                    <%-- MODAL : END --%>
 
                     </div>
                     <!-- /.panel-body -->
@@ -126,6 +161,28 @@
         $("#regBtn").on("click",function(){
            self.location = "/board/register";
         });
+
+
+        // pageNum, amount actionForm에 담아 넘기기
+        var actionForm = $("#actionForm");
+        $(".paginate_button a").on("click",function(e){
+            e.preventDefault();
+            console.log('click'); //form 태그에 값이 잘 들어가는지 submit()처리 하기 전에 브라우저 개발자도구에서 미리 확인부터 하기
+            actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+
+            actionForm.submit(); //form 태그에 값이 잘 들어가는지 submit()처리 하기 전에 브라우저 개발자도구에서 미리 확인부터 하기
+        });
+
+    // list > get?bno=x > list 이동시 초기페이지로 이동하는 문제 해결 : 각 조회페이지로 이동 시 hidden 값을 담아서 보냄
+        $(".move").on("click",function(e){
+            e.preventDefault();
+
+            actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+
+            actionForm.attr("action","/board/get");
+            actionForm.submit();
+        });
+
     });
 </script>
 <%@include file="../includes/footer.jsp"%>

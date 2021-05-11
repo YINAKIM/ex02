@@ -119,4 +119,18 @@ public class BoardControllerTests {
 
     => MockMvc 로 파라미터 전달 시 반드시 String으로 전달할 것
     */
+
+
+
+    @Test // ROWNUM, BNO 확인까지 완료
+    public void testListPaging() throws Exception{
+
+        log.info("#####testListPaging...."
+                +mockMvc.perform(MockMvcRequestBuilders.get("/board/list")
+                .param("pageNum","2").param("amount","50"))
+                .andReturn().getModelAndView().getModelMap()
+        );
+
+    }
+
 }
