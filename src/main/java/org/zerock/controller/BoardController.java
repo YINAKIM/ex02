@@ -37,7 +37,7 @@ public class BoardController {
     // 등록 작업은 POST
     @PostMapping("/register")
     public String register(BoardVO board, RedirectAttributes rttr){
-        log.info("register : "+board);
+        log.info("register : "+ board);
         service.register(board);
         rttr.addFlashAttribute("result",board.getBno());
         return "redirect:/board/list";

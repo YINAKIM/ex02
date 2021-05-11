@@ -4,11 +4,12 @@
         "http://mybatis.org/dtd/schema/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.BoardMapper">
 
-    <select id="getList" resultType="org.zerock.domain.BoardVO">
+    <select id="getList" resultType="org.zerock.domain.BoardVO" fetchSize="100">
     <![CDATA[
-        SELECT * FROM TBL_BOARD WHERE BNO > 0 ORDER BY BNO
+        SELECT * FROM TBL_BOARD WHERE BNO < 20 ORDER BY BNO
     ]]>
     </select>
+<!--  일단 실행계획보는거 테스트하려고 데이터 너무 많이 넣어놔서 20개로 짤라놓음  -->
 
     <insert id="insert">
         INSERT INTO TBL_BOARD(
