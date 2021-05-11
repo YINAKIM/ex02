@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)   // (이걸로)스프링을 실행시킬꺼다
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/applicationContext.xml") // ("file:여기경로/경로/설정파일")을 참고할꺼다
@@ -87,6 +90,20 @@ public class BoardMapperTests {
     }
 
 
+
+    // 페이징처리를 위한 mapper테스트
+    @Test
+    public void testPaging(){
+        Criteria cri = new Criteria(); // 기본생성자에 테스트용으로 (페이지번호 1,한페이지로우 10)으로 설정해둠
+
+        //  WHERE ROWNUM <= #{pageNum} * #{amount}
+        //  ( #{pageNum}-1 ) * #{amount} 으로 바꾸고 테스트
+        cri.setPageNum(4);
+        cri.setAmount(10);
+
+        List<BoardVO> list = mapper.getListWithPaging(cri);
+        list.forEach(board -> log.info(board) );
+    }
 
 
 }

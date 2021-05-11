@@ -4,6 +4,7 @@ package org.zerock.mapper;
 
 import org.apache.ibatis.annotations.Select;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import javax.naming.InitialContext;
 import java.sql.Driver;
@@ -12,8 +13,11 @@ import java.util.List;
 public interface BoardMapper {
 
     //@Service 패키지 주의! org.apache.ibatis.annotations.Select
-//    @Select("SELECT * FROM TBL_BOARD WHERE BNO>0")
+    //@Select("SELECT * FROM TBL_BOARD WHERE BNO>0")
     public List<BoardVO> getList();
+
+    //-------- 페이징처리를 위한 파라미터들을 모아둔 Creteria를 받아서 페이징을 위한 리스트를 만드는 메서드 --------
+    public List<BoardVO> getListWithPaging(Criteria cri);
 
 
     // 1. insert만 처리, 생성된 PK값을 알 필요가 없는 경우
@@ -32,5 +36,7 @@ public interface BoardMapper {
 
     // 5. update처리
     public int update(BoardVO board);
+
+
 }
 

@@ -70,4 +70,35 @@
             ,UPDATEDATE = SYSDATE
         WHERE BNO=#{bno}
     </update>
+
+
+<!--  페이징처리를 위한 파라미터들을 모아둔 Creteria를 받아서 페이징을 위한 리스트를 만드는 메서드 -->
+
+    <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+        <![CDATA[
+            SELECT
+                ALIAS_RN
+                ,BNO
+                ,TITLE
+                ,CONTENT
+                ,WRITER
+                ,REGDATE
+                ,UPDATEDATE
+              FROM  (
+                    SELECT
+                        /*+ INDEX_DESC(TBL_BOARD PK_BOARD)*/
+                        ROWNUM ALIAS_RN
+                        ,BNO
+                        ,TITLE
+                        ,CONTENT
+                        ,WRITER
+                        ,REGDATE
+                        ,UPDATEDATE
+                       FROM TBL_BOARD
+                      WHERE ROWNUM <= #{pageNum} * #{amount}
+                     )
+            WHERE ALIAS_RN > ( #{pageNum}-1 ) * #{amount}
+        ]]>
+    </select>
+
 </mapper>
