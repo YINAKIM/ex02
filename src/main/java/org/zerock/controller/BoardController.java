@@ -35,11 +35,8 @@ public class BoardController {
         log.info(" /list 들어옴 ---> pageNum:"+cri.getPageNum()+", amount: "+cri.getAmount());
 
 
-        //페이징처리할 때 totalRow 쓰려고 그냥 list만들어서 담음
-          List<BoardVO> list = service.getList(cri);
-         int totalRow = list.size();
 
-        model.addAttribute("list",list);
+        model.addAttribute("list",service.getList(cri));
         //model.addAttribute("list",service.getList(cri));
         /*
         http://localhost:8000/board/list?pageNum=2&amount=10
@@ -48,11 +45,12 @@ public class BoardController {
         http://localhost:8000/board/list?pageNum=3&amount=5
         => 전부 출력됨
         */
+        int total = service.getTotal(cri);
+        log.info("getTotal-----> "+total);
 
         //PageDTO의 페이징처리 로직활용 -> 페이징용 필드들 넘김
-        model.addAttribute("pageMaker",new PageDTO(cri, 250));
-        //model.addAttribute("pageMaker",new PageDTO(cri, totalRow));  -----> 이렇게 하니까 pageNum을 못꺼냈음 , 이유알아보기
-        // -> 여기 들어올 때 Criteria의 cri.getAmount() 만큼씩만 들어오니까 list.size는 의미가 없고, 그래서 pageNum을 못받아온거임 10개만 가져오니까
+        model.addAttribute("pageMaker",new PageDTO(cri, total)); //전체데이터 ROW 추가
+       // model.addAttribute("pageMaker",new PageDTO(cri, 250));
 
 
     }
@@ -88,13 +86,13 @@ public class BoardController {
 
                 org.springframework.ui.Model 을 상속받는
                 RedirectAttributes [I]의 addFlashAttribute  => 일회성으로만 데이터를 전달
-                                                           => 내부적으로는 HttpSession을 이용해서 처리, addFlashAttribute()에 보관된 데이터는 단 한번만 사용할 수 있게 보관됨
+                                                           => 내부적으로는 HttpSession을 이용해서 처리,
+                                                              addFlashAttribute()에 보관된 데이터는 단 한번만 사용할 수 있게 보관됨
 
-            [?] 그럼 새로고침할 때 그 값은 다시 쓸 수 없게 증발된다고 했는데 메모리에도 없어지는건지?
+            [?] 그럼 새로고침할 때 그 값은 다시 쓸 수 없게 증발
                 https://www.notion.so/Hash-e5069952773c471ea200dcacf1fe2f01
 
-                [?] 근데 왜 블로그 찾아보면 2개이상 보내면 안된다고 하는거지? 2개이상 담아도  잘가는데 왜안된다고하는거지?
-
+                [?] 근데 왜 블로그 찾아보면 2개이상 보내면 안된다고 하는거지? 2개이상 담아도  잘가는데 왜안된다고하는거지? -> 5.0에서 테스트했는데 파라미터 전달되고 값도 읽음
 
         */
 

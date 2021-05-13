@@ -22,6 +22,10 @@ public interface BoardMapper {
     public List<BoardVO> getListWithPaging(Criteria cri);
 
 
+    // 전체 데이터 수 구하기
+    public int getTotal(Criteria cri);
+
+
     // 1. insert만 처리, 생성된 PK값을 알 필요가 없는 경우
     public void insert(BoardVO board);
 
@@ -38,6 +42,8 @@ public interface BoardMapper {
 
     // 5. update처리
     public int update(BoardVO board);
+
+
 
 
 }

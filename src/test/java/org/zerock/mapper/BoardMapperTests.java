@@ -107,4 +107,34 @@ public class BoardMapperTests {
     }
 
 
+    // 동적SQL로 다중 검색 테스트 : 동적SQL의 경우의 수 전부 테스트할 것
+    // 테스트 결과 정리 https://www.notion.so/MyBatis-SQL-TEST-18139dd706c64805a62202b94f6e3ad1
+    @Test
+    public void testSearch(){
+        Criteria cri = new Criteria();
+
+        // 1. 제목 + 내용 : type == 'TC' (1-2 순서 : 59초)
+//       cri.setKeyword("책");
+//        cri.setType("TC");
+
+        // 2. 내용 + 작성자 : type == 'CW' (2-3 순서 : 57초)
+//        cri.setKeyword("책");
+//        cri.setType("CW");
+
+        //3. 제목 + 작성자 : type == 'TW' ( 1-3 순서 : 47초 )
+//        cri.setKeyword("책");
+//        cri.setType("TW");
+
+        //4. 검색조건 없음 : Criteria에서 getTypeArr() 을 타지 않고
+        //               기본생성자로 검색(검색관련 필드없이 1페이지, 10줄씩만 검색)
+
+        //5. 단일조건 테스트 :
+        cri.setType("T");
+        cri.setKeyword("책");
+
+
+        List<BoardVO> list = mapper.getListWithPaging(cri);
+        list.forEach(board -> log.info(board));
+    }
+
 }

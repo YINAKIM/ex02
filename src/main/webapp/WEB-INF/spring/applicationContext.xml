@@ -16,16 +16,19 @@
         <property name="password" value="book_ex"/>
     </bean>
 
+
+
     <!-- HikariCP configuration:dataSource테스트할 때 필요, 84p-->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
         <constructor-arg ref="hikariConfig"/>
     </bean>
 
-    <!--  마이바티스  -->
+    <!--  마이바티스 sqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+<!--  base-package : 이 위치에 있는 어노테이션 붙은 객체들 (Bean들) 찾아라  -->
     <mybatis-spring:scan base-package="org.zerock.mapper"/>
     <context:component-scan base-package="org.zerock.controller"/>
     <context:component-scan base-package="org.zerock.service"/>

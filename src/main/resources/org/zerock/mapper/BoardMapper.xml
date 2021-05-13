@@ -74,7 +74,8 @@
 
 <!--  페이징처리를 위한 파라미터들을 모아둔 Creteria를 받아서 페이징을 위한 리스트를 만드는 메서드 -->
 
-    <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+<!--
+ <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
         <![CDATA[
             SELECT
                 ALIAS_RN
@@ -99,6 +100,72 @@
                      )
             WHERE ALIAS_RN > ( #{pageNum}-1 ) * #{amount}
         ]]>
+    </select>
+
+-->
+
+<!--  list 전체 count  -->
+    <select id="getTotal" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) FROM TBL_BOARD WHERE BNO > 0
+        ]]>
+    </select>
+
+<!-- [chapter 15] 검색 / 페이징 한번에 처리하는 getListWithPaging :
+     페이징 : hint랑 ROWNUM 사용
+     검색 :  <trim> 사용
+     (검색조건을 처리하는 부분은 데이터의 개수를 처리하는 부분도 동일하게 적용되어야함)
+     결과 개수 : <sql>로 include
+-->
+
+
+    <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+        <![CDATA[
+            SELECT
+                ALIAS_RN
+                ,BNO
+                ,TITLE
+                ,CONTENT
+                ,WRITER
+                ,REGDATE
+                ,UPDATEDATE
+              FROM  (
+                    SELECT
+                        /*+ INDEX_DESC(TBL_BOARD PK_BOARD)*/
+                        ROWNUM ALIAS_RN
+                        ,BNO
+                        ,TITLE
+                        ,CONTENT
+                        ,WRITER
+                        ,REGDATE
+                        ,UPDATEDATE
+                       FROM TBL_BOARD
+                      WHERE
+        ]]>
+                <trim prefix="(" suffix=") AND " prefixOverrides="OR">
+                    <foreach item="type" collection="typeArr">
+                        <trim prefix="OR">
+                            <choose>
+                                <when test="type == 'T'.toString()">
+                                    title like '%' || #{keyword} || '%'
+                                </when>
+                                <when test="type == 'C'.toString()">
+                                    content like '%' || #{keyword} || '%'
+                                </when>
+                                <when test="type == 'W'.toString()">
+                                    writer like '%' || #{keyword} || '%'
+                                </when>
+                            </choose>
+                        </trim>
+                    </foreach>
+                </trim>
+
+        <![CDATA[
+                      ROWNUM <= #{pageNum} * #{amount}
+                     )
+            WHERE ALIAS_RN > ( #{pageNum}-1 ) * #{amount}
+        ]]>
+
     </select>
 
 </mapper>

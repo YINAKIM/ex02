@@ -13,6 +13,10 @@ public class Criteria {
     private int pageNum;   // 페이지번호
     private int amount;    // 한페이지에 보여줄 row 수
 
+    // 검색조건용 필드 추가
+    private String type;
+    private String keyword;
+
     // 맨첫페이지, 테스트용
     public Criteria(){
         this(1,10);
@@ -22,6 +26,11 @@ public class Criteria {
     public Criteria(int pageNum, int amount){
         this.pageNum=pageNum;
         this.amount=amount;
+    }
+
+    // 검색조건 : 각 글자 {T,W,C}로 구성된 배열로 만들어서 한번에 getTypeArr()로 처리
+    public String[] getTypeArr(){
+        return type == null ? new String[] {} : type.split("");
     }
 
     /*
