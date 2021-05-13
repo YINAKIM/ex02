@@ -119,6 +119,10 @@ public class BoardController {
         //왔던 페이지번호로 돌아가기 위해 받아온 Criteria 필드들
         rttr.addAttribute("pageNum",cri.getPageNum());
         rttr.addAttribute("amount",cri.getAmount());
+
+        // 검색조건도 담아줘야됨 --> js에서도
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
         return "redirect:/board/list"; //수정 성공 후 list로 redirect
     }
 
@@ -137,6 +141,10 @@ public class BoardController {
         //왔던 페이지번호로 돌아가기 위해 받아온 Criteria 필드들
         rttr.addAttribute("pageNum",cri.getPageNum());
         rttr.addAttribute("amount",cri.getAmount());
+
+        // 검색조건도 담아줘야됨
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
 
         return "redirect:/board/list";
     }

@@ -58,13 +58,33 @@
                             <div class="col-lg-12">
                                 <form id="searchForm" action="/board/list" method="get">
                                     <select name="type">
-                                        <option value="----"></option>
-                                        <option value="T">제목</option>
-                                        <option value="C">내용</option>
-                                        <option value="W">작성자</option>
-                                        <option value="TC">제목 or 내용</option>
-                                        <option value="TW">제목 or 작성자</option>
-                                        <option value="TWC">제목 or 내용 or 작성자</option>
+                                        <option value=""
+                                        <c:out value="${pageMaker.cri.type == null? 'selected':''}"/>
+                                        >---</option>
+
+                                        <option value="T"
+                                        <c:out value="${pageMaker.cri.type eq 'T'? 'selected':''}"/>
+                                        >제목</option>
+
+                                        <option value="C"
+                                        <c:out value="${pageMaker.cri.type eq 'C'? 'selected':''}"/>
+                                        >내용</option>
+
+                                        <option value="W"
+                                        <c:out value="${pageMaker.cri.type eq 'W'? 'selected':''}"/>
+                                        >작성자</option>
+
+                                        <option value="TC"
+                                                <c:out value="${pageMaker.cri.type eq 'TC'? 'selected':''}"/>
+                                        >제목 or 내용</option>
+
+                                        <option value="TW"
+                                                <c:out value="${pageMaker.cri.type eq 'TW'? 'selected':''}"/>
+                                        >제목 or 작성자</option>
+
+                                        <option value="TWC"
+                                                <c:out value="${pageMaker.cri.type eq 'TWC'? 'selected':''}"/>
+                                        >제목 or 내용 or 작성자</option>
                                     </select>
 
                                     <input type="text" name="keyword">
@@ -110,6 +130,8 @@
 <form id="actionForm" action="/board/list" method="get">
     <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
     <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+    <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+    <input type="hidden" name="type" value="${pageMaker.cri.type}">
 </form>
 
                     <%-- MODAL  --%>
@@ -178,10 +200,7 @@
                 $(".modal-body").html("게시글 "+parseInt(result)+"번이 등록되었습니다.");
             }
             $("#myModal").modal("show");//if안에 들어가있었음 => 등록완료일 때만 model 보임
-
-
-
-        }
+        } // checkModal():e
 
         // regBtn : move to register page
         $("#regBtn").on("click",function(){
@@ -197,7 +216,7 @@
             actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 
             actionForm.submit(); //form 태그에 값이 잘 들어가는지 submit()처리 하기 전에 브라우저 개발자도구에서 미리 확인부터 하기
-        });
+        }); //actionForm:e
 
     // list > get?bno=x > list 이동시 초기페이지로 이동하는 문제 해결 : 각 조회페이지로 이동 시 hidden 값을 담아서 보냄
         $(".move").on("click",function(e){
@@ -209,6 +228,30 @@
             actionForm.submit();
         });
 
-    });
+        // 검색버튼 이벤트 처리
+        var searchForm = $("#searchForm");
+
+        $("#searchForm button").on("click",function(e){
+            if(!searchForm.find("option:selected").val()){
+                console.log("option값 없음")
+                alert("검색조건을 선택하세요");
+                return false;
+            }
+
+            if(!searchForm.find("input[name=keyword]").val()){
+                console.log("keyword 없음")
+                alert("검색어를 선택하세요");
+                return false;
+            }
+
+            if(!searchForm.find("input[name=pageNum]").val("1")) ;
+            e.preventDefault();
+
+            searchForm.submit();
+
+        }); //검색버튼 이벤트 처리 :e
+
+
+    }); //e
 </script>
 <%@include file="../includes/footer.jsp"%>

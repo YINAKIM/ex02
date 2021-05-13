@@ -36,6 +36,10 @@
                 <input type="hidden" name="pageNum" value="<c:out value='${cri.pageNum}'/>">
                 <input type="hidden" name="amount" value="<c:out value='${cri.amount}'/>">
 
+
+                  <input type="hidden" id="type" name="type" value="<c:out value='${cri.type}'/>">
+                  <input type="hidden" id="keyword" name="keyword" value="<c:out value='${cri.keyword}'/>">
+
             <%-- BNO --%>
             <div class="form-group">
               <label>Bno</label>
@@ -129,11 +133,19 @@
                       // 11.5.4 수정페이지에서 링크처리 + 뒤로가기 : list로 이동할 때는 파라미터필요없기때문에 empty() ---> submit()
                       formObj.attr("action","/board/list").attr("method","get");
 
+                      // 다시 목록으로 이동하는 경우, 필요한 파라미터만 전송하기 위해 <form>태그의 모든 내용을
+                      // 지우고 다시 추가 : clone - empty - append
                       var pageNumTag = $("input[name='pageNum']").clone();
                       var amountTag = $("input[name='amount']").clone();
+                      var typeTag = $("input[name='type']").clone();
+                      var keywordTag = $("input[name='keyword']").clone();
+
                       formObj.empty();
+
                       formObj.append(pageNumTag);
                       formObj.append(amountTag);
+                      formObj.append(typeTag);
+                      formObj.append(keywordTag);
 
 /*
     사용자가 수정(혹은 삭제) 하려고 왔다가 작업 안하고 [List] 을 눌러서 돌아갈 경우
